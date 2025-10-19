@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voice Test - Available Voices</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .voice-card {
+      background: #2a2a2a;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+    .premium {
+      border-left-color: gold;
+    }
+    .test-text {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      background: #1a1a1a;
+      color: #fff;
+      border: 1px solid #667eea;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎤 Voice Playback Test</h1>
+  <p>This page will show all available voices on your system</p>
+
+  <textarea class="test-text" id="testText" rows="3">
+Hello! This is a test of the voice synthesis system. Your AI battle results are ready to be read aloud.
+  </textarea>
+
+  <button onclick="testAllVoices()">🔍 Discover All Voices</button>
+  <button onclick="stopSpeaking()">⏹️ Stop</button>
+
+  <div id="voiceList"></div>
+
+  <script>
+    let voices = [];
+    let currentUtterance = null;
+
+    function loadVoices() {
+      voices = speechSynthesis.getVoices();
+      console.log(`Found ${voices.length} voices`);
+      return voices;
+    }
+
+    // Load voices when available
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    loadVoices();
+
+    function categorizeVoice(voice) {
+      const name = voice.name.toLowerCase();
+      const lang = voice.lang.toLowerCase();
+
+      // Categorize based on characteristics
+      if (name.includes('samantha') || name.includes('victoria') || name.includes('female')) {
+        return { tier: 'free', gender: 'female', description: 'Female Voice' };
+      } else if (name.includes('daniel') || name.includes('alex') || name.includes('male')) {
+        return { tier: 'free', gender: 'male', description: 'Male Voice' };
+      } else if (name.includes('karen') || name.includes('moira')) {
+        return { tier: 'premium', description: 'British Accent', icon: '🇬🇧' };
+      } else if (name.includes('jorge') || name.includes('juan')) {
+        return { tier: 'premium', description: 'Spanish Accent', icon: '🇪🇸' };
+      } else if (name.includes('thomas') || name.includes('rishi')) {
+        return { tier: 'premium', description: 'French Accent', icon: '🇫🇷' };
+      } else {
+        return { tier: 'standard', description: voice.name };
+      }
+    }
+
+    function testAllVoices() {
+      voices = loadVoices();
+
+      if (voices.length === 0) {
+        alert('No voices available! Voices might still be loading...');
+        return;
+      }
+
+      const voiceList = document.getElementById('voiceList');
+      voiceList.innerHTML = '<h2>Available Voices (' + voices.length + ' total)</h2>';
+
+      const freeVoices = [];
+      const premiumVoices = [];
+      const otherVoices = [];
+
+      voices.forEach((voice, index) => {
+        const category = categorizeVoice(voice);
+        const voiceCard = `
+          <div class="voice-card ${category.tier === 'premium' ? 'premium' : ''}">
+            <strong>${category.description || voice.name}</strong>
+            <br>
+            <small>Lang: ${voice.lang} | ${voice.localService ? 'Local' : 'Remote'}</small>
+            <br>
+            <small>System Name: ${voice.name}</small>
+            <br>
+            <button onclick="testVoice(${index})">▶️ Test This Voice</button>
+            ${category.tier === 'premium' ? '<span style="color: gold;">💎 PREMIUM $5</span>' : ''}
+            ${category.tier === 'free' ? '<span style="color: #22c55e;">✅ FREE</span>' : ''}
+          </div>
+        `;
+
+        if (category.tier === 'free') {
+          freeVoices.push(voiceCard);
+        } else if (category.tier === 'premium') {
+          premiumVoices.push(voiceCard);
+        } else {
+          otherVoices.push(voiceCard);
+        }
+      });
+
+      voiceList.innerHTML += '<h3 style="color: #22c55e;">FREE VOICES</h3>' + freeVoices.join('');
+      voiceList.innerHTML += '<h3 style="color: gold;">PREMIUM VOICES ($5)</h3>' + premiumVoices.join('');
+      voiceList.innerHTML += '<h3>OTHER AVAILABLE VOICES</h3>' + otherVoices.join('');
+    }
+
+    function testVoice(index) {
+      stopSpeaking();
+
+      const text = document.getElementById('testText').value;
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.voice = voices[index];
+      currentUtterance.rate = 1.0;
+      currentUtterance.pitch = 1.0;
+
+      console.log('Testing voice:', voices[index].name);
+      speechSynthesis.speak(currentUtterance);
+    }
+
+    function stopSpeaking() {
+      speechSynthesis.cancel();
+      currentUtterance = null;
+    }
+
+    // Auto-load voices on page load
+    setTimeout(() => {
+      if (voices.length === 0) {
+        loadVoices();
+      }
+    }, 100);
+  </script>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Battle Arena - Universal Friendly Edition</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+      background: linear-gradient(180deg, #FFF9E6 0%, #FFF5DB 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    /* Gentle golden glow */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 193, 7, 0.05) 0%, transparent 70%);
+      animation: gentleGlow 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gentleGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 40px 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(255, 152, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 48px;
+      font-weight: 700;
+      color: #FF9800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .logo-icon {
+      font-size: 56px;
+      animation: wag 2s ease-in-out infinite;
+    }
+
+    @keyframes wag {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .tagline {
+      font-size: 22px;
+      color: #666;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .main-card {
+      background: white;
+      border-radius: 24px;
+      padding: 50px;
+      box-shadow: 0 8px 32px rgba(255, 152, 0, 0.12);
+      margin-bottom: 40px;
+      border: 3px solid #FFE0B2;
+    }
+
+    .question-section {
+      margin-bottom: 40px;
+    }
+
+    .label {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FF9800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .label-icon {
+      font-size: 32px;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 24px 28px;
+      font-size: 22px;
+      border: 4px solid #FFE0B2;
+      border-radius: 16px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: #FFFAF0;
+      color: #333;
+    }
+
+    .input-box:focus {
+      outline: none;
+      border-color: #FF9800;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.1);
+    }
+
+    .input-box::placeholder {
+      color: #AAA;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .battle-button {
+      flex: 1;
+      padding: 28px 40px;
+      font-size: 22px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .battle-button.primary {
+      background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+      color: white;
+      box-shadow: 0 6px 20px rgba(255, 152, 0, 0.3);
+    }
+
+    .battle-button.primary:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+    }
+
+    .button-icon {
+      font-size: 28px;
+    }
+
+    .battle-button.secondary {
+      background: white;
+      color: #FF9800;
+      border: 4px solid #FF9800;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.1);
+    }
+
+    .battle-button.secondary:hover {
+      background: #FFF3E0;
+      transform: translateY(-2px);
+    }
+
+    /* Results area */
+    .results {
+      margin-top: 60px;
+      display: none;
+    }
+
+    .results.active {
+      display: block;
+      animation: slideIn 0.6s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .results-header {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 24px rgba(255, 152, 0, 0.12);
+      border: 3px solid #FFE0B2;
+    }
+
+    .results-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #FF9800;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .results-subtitle {
+      font-size: 20px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .ai-response {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 24px;
+      border: 3px solid #FFE0B2;
+      box-shadow: 0 4px 16px rgba(255, 152, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .ai-response:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 28px rgba(255, 152, 0, 0.15);
+      border-color: #FFB74D;
+    }
+
+    .ai-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .ai-avatar {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .ai-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FF9800;
+    }
+
+    .ai-text {
+      font-size: 20px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    /* Loading animation */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 80px 40px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(255, 152, 0, 0.12);
+      border: 3px solid #FFE0B2;
+    }
+
+    .loading.active {
+      display: block;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    .loading-icon {
+      font-size: 80px;
+      margin-bottom: 30px;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .loading-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FF9800;
+      margin-bottom: 16px;
+    }
+
+    .loading-subtext {
+      font-size: 20px;
+      color: #666;
+    }
+
+    .loading-dots {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .loading-dot {
+      width: 20px;
+      height: 20px;
+      background: #FF9800;
+      border-radius: 50%;
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(0.6); opacity: 0.4; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Helpful hints */
+    .hint-box {
+      background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+      border-radius: 20px;
+      padding: 32px 40px;
+      margin-top: 40px;
+      border: 3px solid #FF9800;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .hint-icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    .hint-content {
+      flex: 1;
+    }
+
+    .hint-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #FF9800;
+      margin-bottom: 12px;
+    }
+
+    .hint-text {
+      font-size: 20px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    /* Encouragement messages */
+    .encouragement {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 20px;
+      color: #FF9800;
+      font-weight: 600;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 32px;
+      }
+
+      .tagline {
+        font-size: 18px;
+      }
+
+      .main-card {
+        padding: 32px 24px;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .input-box {
+        font-size: 20px;
+        padding: 20px 24px;
+      }
+
+      .battle-button {
+        font-size: 20px;
+        padding: 24px 32px;
+      }
+
+      .ai-response {
+        padding: 28px 24px;
+      }
+
+      .hint-box {
+        flex-direction: column;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <span class="logo-icon">🐕</span>
+        <span>AI Helper</span>
+      </div>
+      <div class="tagline">Get great answers from 5 smart computers!</div>
+    </div>
+
+    <div class="main-card">
+      <div class="question-section">
+        <div class="label">
+          <span class="label-icon">💭</span>
+          <span>What's your question?</span>
+        </div>
+        <input
+          type="text"
+          class="input-box"
+          placeholder="Type anything you want to know..."
+          id="question"
+        >
+      </div>
+
+      <div class="button-row">
+        <button class="battle-button primary" onclick="startBattle()">
+          <span class="button-icon">🚀</span>
+          <span>Get Answers</span>
+        </button>
+        <button class="battle-button secondary" onclick="clearAll()">
+          <span class="button-icon">🔄</span>
+          <span>Start Over</span>
+        </button>
+      </div>
+
+      <div class="hint-box">
+        <div class="hint-icon">💡</div>
+        <div class="hint-content">
+          <div class="hint-title">Here's how it works:</div>
+          <div class="hint-text">
+            Type your question above and click "Get Answers". Five different smart computers will each give you their best answer. Then you can read all the answers and pick the one you like best!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="loading-icon">🤔</div>
+      <div class="loading-text">Finding great answers...</div>
+      <div class="loading-subtext">This will just take a moment</div>
+      <div class="loading-dots">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+    </div>
+
+    <div class="results" id="results">
+      <div class="results-header">
+        <div class="results-title">
+          <span>✨</span>
+          <span>Here are your answers!</span>
+          <span>✨</span>
+        </div>
+        <div class="results-subtitle">All 5 computers answered your question</div>
+      </div>
+      <div id="resultsContent"></div>
+      <div class="encouragement">Great question! Feel free to ask another one! 🌟</div>
+    </div>
+  </div>
+
+  <script>
+    function startBattle() {
+      const question = document.getElementById('question').value;
+      if (!question.trim()) {
+        alert('Please type a question first! 😊');
+        return;
+      }
+
+      // Show loading
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('results').classList.remove('active');
+
+      // Simulate battle (in real app, this would call your API)
+      setTimeout(() => {
+        showResults();
+      }, 3000);
+    }
+
+    function showResults() {
+      document.getElementById('loading').classList.remove('active');
+      const results = document.getElementById('results');
+      const content = document.getElementById('resultsContent');
+
+      // Demo results
+      content.innerHTML = `
+        <div class="ai-response">
+          <div class="ai-header">
+            <div class="ai-avatar">🧠</div>
+            <div class="ai-name">Claude</div>
+          </div>
+          <div class="ai-text">This is where Claude's helpful, detailed answer would appear with lots of useful information...</div>
+        </div>
+        <div class="ai-response">
+          <div class="ai-header">
+            <div class="ai-avatar">💭</div>
+            <div class="ai-name">GPT-4</div>
+          </div>
+          <div class="ai-text">This is where GPT-4's creative and thoughtful answer would appear...</div>
+        </div>
+        <div class="ai-response">
+          <div class="ai-header">
+            <div class="ai-avatar">⭐</div>
+            <div class="ai-name">Gemini</div>
+          </div>
+          <div class="ai-text">This is where Gemini's smart answer would appear with clear explanations...</div>
+        </div>
+      `;
+
+      results.classList.add('active');
+    }
+
+    function clearAll() {
+      document.getElementById('question').value = '';
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('loading').classList.remove('active');
+      document.getElementById('question').focus();
+    }
+
+    // Auto-focus on question box when page loads
+    window.addEventListener('load', function() {
+      document.getElementById('question').focus();
+    });
+  </script>
+</body>
+</html>

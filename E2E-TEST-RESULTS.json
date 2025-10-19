@@ -1,0 +1,118 @@
+{
+  "timestamp": "2025-10-18T07:54:57.329Z",
+  "stages": [
+    {
+      "stage": "Stage 1: Project Creation",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "projectId": "test-project-e2e-001",
+        "status": "draft"
+      }
+    },
+    {
+      "stage": "Stage 2: Temporal Workflow Start",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "workflowId": "workflow-test-project-e2e-001",
+        "runId": "run-1760774097330",
+        "status": "RUNNING"
+      }
+    },
+    {
+      "stage": "Stage 3: AI Script Generation",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "candidates": 3,
+        "topScore": 0.92,
+        "averageWordCount": 716.6666666666666
+      }
+    },
+    {
+      "stage": "Stage 4: Human Approval Checkpoint",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "approvedScriptId": 1,
+        "approvalMethod": "Human UI selection",
+        "timestamp": "2025-10-18T07:54:57.330Z"
+      }
+    },
+    {
+      "stage": "Stage 5: Voiceover Generation (ElevenLabs)",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "audioPath": "/tmp/voiceover-test-project-e2e-001.mp3",
+        "duration": 300,
+        "voice": "Adam",
+        "sampleRate": 44100,
+        "fileSize": 4800000
+      }
+    },
+    {
+      "stage": "Stage 6: Asset Sourcing (Pexels)",
+      "status": "PASS",
+      "duration": 88,
+      "details": {
+        "assetsSourced": 10,
+        "totalDuration": 300,
+        "resolution": "1920x1080",
+        "method": "SIMULATED"
+      }
+    },
+    {
+      "stage": "Stage 7: Video Assembly (Remotion)",
+      "status": "PASS",
+      "duration": 101,
+      "details": {
+        "compositionValid": true,
+        "fps": 30,
+        "frames": 9000,
+        "resolution": "1920x1080",
+        "assets": 10
+      }
+    },
+    {
+      "stage": "Stage 8: Thumbnail Generation (Adobe Firefly)",
+      "status": "PASS",
+      "duration": 2,
+      "details": {
+        "thumbnailsGenerated": 3,
+        "aspectRatio": "16:9",
+        "resolution": "1920x1080",
+        "method": "SIMULATED"
+      }
+    },
+    {
+      "stage": "Stage 9: Final QC Checkpoint",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "qcPassed": true,
+        "checks": {
+          "videoPlayable": true,
+          "audioSynced": true,
+          "thumbnailHighQuality": true,
+          "durationCorrect": true,
+          "noWatermarks": true
+        }
+      }
+    },
+    {
+      "stage": "Stage 10: YouTube Publication",
+      "status": "PASS",
+      "duration": 0,
+      "details": {
+        "videoId": "YT-1760774097521",
+        "url": "https://youtube.com/watch?v=test-test-project-e2e-001",
+        "status": "published",
+        "publishedAt": "2025-10-18T07:54:57.521Z"
+      }
+    }
+  ],
+  "totalDuration": 191,
+  "bottlenecks": []
+}

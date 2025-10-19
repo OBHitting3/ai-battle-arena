@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Battle Arena - Luxury Calm Edition</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(180deg, #F8F9FA 0%, #E8EFF5 100%);
+      min-height: 100vh;
+      padding: 80px 40px;
+    }
+
+    /* Subtle golf course inspired texture */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(82, 183, 136, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(82, 183, 136, 0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .logo {
+      font-size: 56px;
+      font-weight: 300;
+      color: #2C3E50;
+      letter-spacing: 8px;
+      margin-bottom: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .logo-accent {
+      color: #52B788;
+      font-weight: 600;
+    }
+
+    .tagline {
+      font-size: 18px;
+      color: #7F8C8D;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .main-card {
+      background: white;
+      border-radius: 4px;
+      padding: 80px;
+      box-shadow:
+        0 1px 3px rgba(0,0,0,0.03),
+        0 20px 60px rgba(0,0,0,0.08);
+      margin-bottom: 60px;
+    }
+
+    .question-section {
+      margin-bottom: 60px;
+    }
+
+    .label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #52B788;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 28px 32px;
+      font-size: 20px;
+      border: 2px solid #E8EFF5;
+      border-radius: 2px;
+      font-family: Georgia, serif;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #FAFBFC;
+      color: #2C3E50;
+    }
+
+    .input-box:focus {
+      outline: none;
+      border-color: #52B788;
+      background: white;
+      box-shadow: 0 8px 24px rgba(82, 183, 136, 0.08);
+    }
+
+    .input-box::placeholder {
+      color: #BDC3C7;
+      font-style: italic;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .battle-button {
+      flex: 1;
+      padding: 24px 48px;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .battle-button.primary {
+      background: #52B788;
+      color: white;
+      box-shadow: 0 4px 16px rgba(82, 183, 136, 0.3);
+    }
+
+    .battle-button.primary:hover {
+      background: #40916C;
+      box-shadow: 0 8px 32px rgba(82, 183, 136, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .battle-button.secondary {
+      background: transparent;
+      color: #52B788;
+      border: 2px solid #52B788;
+    }
+
+    .battle-button.secondary:hover {
+      background: #F8F9FA;
+      transform: translateY(-2px);
+    }
+
+    /* Results area */
+    .results {
+      margin-top: 80px;
+      display: none;
+    }
+
+    .results.active {
+      display: block;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .results-title {
+      font-size: 32px;
+      font-weight: 300;
+      color: #2C3E50;
+      text-align: center;
+      margin-bottom: 60px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .ai-response {
+      background: white;
+      border-radius: 2px;
+      padding: 48px;
+      margin-bottom: 32px;
+      border-left: 3px solid #52B788;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+    }
+
+    .ai-response:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transform: translateX(4px);
+    }
+
+    .ai-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #52B788;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .ai-text {
+      font-size: 19px;
+      line-height: 1.9;
+      color: #34495E;
+      font-family: Georgia, serif;
+    }
+
+    /* Loading animation */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 100px 40px;
+    }
+
+    .loading.active {
+      display: block;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    .loading-text {
+      font-size: 18px;
+      font-weight: 400;
+      color: #7F8C8D;
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      border: 3px solid #E8EFF5;
+      border-top-color: #52B788;
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Helpful hint */
+    .hint {
+      background: #F8F9FA;
+      border-radius: 2px;
+      padding: 32px 40px;
+      margin-top: 40px;
+      border-left: 3px solid #52B788;
+      font-size: 18px;
+      color: #5A6C7D;
+      line-height: 1.8;
+      font-family: Georgia, serif;
+      font-style: italic;
+    }
+
+    .hint-icon {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      background: #52B788;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      margin-right: 12px;
+      font-style: normal;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+    }
+
+    /* Decorative elements */
+    .accent-line {
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, #52B788 0%, transparent 100%);
+      margin: 40px auto;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 40px 20px;
+      }
+
+      .logo {
+        font-size: 36px;
+        letter-spacing: 4px;
+      }
+
+      .tagline {
+        font-size: 14px;
+      }
+
+      .main-card {
+        padding: 40px 28px;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .input-box {
+        font-size: 18px;
+        padding: 20px 24px;
+      }
+
+      .battle-button {
+        font-size: 14px;
+        padding: 20px 32px;
+      }
+
+      .ai-response {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">AI <span class="logo-accent">BATTLE</span> ARENA</div>
+      <div class="accent-line"></div>
+      <div class="tagline">The Finest Answers from the Finest Minds</div>
+    </div>
+
+    <div class="main-card">
+      <div class="question-section">
+        <div class="label">Your Question</div>
+        <input type="text" class="input-box" placeholder="What would you like to know today?" id="question">
+      </div>
+
+      <div class="button-row">
+        <button class="battle-button primary" onclick="startBattle()">
+          Begin Analysis
+        </button>
+        <button class="battle-button secondary" onclick="clearAll()">
+          Clear
+        </button>
+      </div>
+
+      <div class="hint">
+        <span class="hint-icon">✓</span>
+        Five leading AI systems will thoughtfully consider your question. Each brings unique expertise and perspective. You'll receive comprehensive answers and see which insights resonate most strongly.
+      </div>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="loading-text">Analyzing your question</div>
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div class="results" id="results">
+      <div class="results-title">Analysis Complete</div>
+      <div id="resultsContent"></div>
+    </div>
+  </div>
+
+  <script>
+    function startBattle() {
+      const question = document.getElementById('question').value;
+      if (!question.trim()) {
+        alert('Please enter a question to begin.');
+        return;
+      }
+
+      // Show loading
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('results').classList.remove('active');
+
+      // Simulate battle (in real app, this would call your API)
+      setTimeout(() => {
+        showResults();
+      }, 3000);
+    }
+
+    function showResults() {
+      document.getElementById('loading').classList.remove('active');
+      const results = document.getElementById('results');
+      const content = document.getElementById('resultsContent');
+
+      // Demo results
+      content.innerHTML = `
+        <div class="ai-response">
+          <div class="ai-name">Claude · Anthropic</div>
+          <div class="ai-text">This is where Claude's detailed, thoughtful response would appear with careful consideration of nuance and context...</div>
+        </div>
+        <div class="ai-response">
+          <div class="ai-name">GPT-4 · OpenAI</div>
+          <div class="ai-text">This is where GPT-4's comprehensive response would appear, drawing on broad knowledge and creative thinking...</div>
+        </div>
+        <div class="ai-response">
+          <div class="ai-name">Gemini · Google</div>
+          <div class="ai-text">This is where Gemini's analytical response would appear, combining factual accuracy with helpful insights...</div>
+        </div>
+      `;
+
+      results.classList.add('active');
+    }
+
+    function clearAll() {
+      document.getElementById('question').value = '';
+      document.getElementById('results').classList.remove('active');
+      document.getElementById('loading').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
