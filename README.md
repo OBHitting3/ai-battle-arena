@@ -171,6 +171,32 @@ npm run dev
 
 ---
 
+## 📚 Key Documentation
+
+### **Production Workflows**
+- 🎬 **[YouTube Production Workflow](./YOUTUBE-PRODUCTION-WORKFLOW.md)**
+  - **Data-driven, realistic scaling strategy** (Dan Martell + Paddy Galloway validated)
+  - 3-phase rollout: Pilot → Measured Scaling → Optimization
+  - Realistic AI output yields, QA checkpoints, time/cost breakdowns
+  - **Start here** before launching any YouTube automation workflow
+
+### **AI Collaboration**
+- 🤖 **[Multi-AI Collaboration Strategy](./AI-COLLABORATION-STRATEGY.md)**
+  - How to use Claude, ChatGPT, Grok, Perplexity, and Gemini effectively
+  - Prompt templates and best practices per AI
+  - Updated with realistic output expectations
+
+### **Systems & Evaluators**
+- 🎯 **[CASPER System](./CASPER-COMPLETE.md)** - Multi-AI evaluator debates (includes Paddy Galloway AI persona)
+- 👔 **[Chiefs of Staff Guide](./CHIEFS-OF-STAFF-GUIDE.md)** - AI delegation and advisory system
+
+### **Quick References**
+- ⚡ **[Quick Start Guide](./QUICK-START.md)**
+- 🔑 **[API Keys Setup](./GET-API-KEYS.md)**
+- ✅ **[Testing Report](./TESTING-REPORT.md)**
+
+---
+
 ## 📊 Current Status
 
 ```

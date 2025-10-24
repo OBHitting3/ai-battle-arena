@@ -3,6 +3,23 @@
 
 ---
 
+## 🚨 CRITICAL: READ FIRST
+
+Before diving into multi-AI workflows, understand the **realistic production limits**:
+
+⚠️ **AI tools are powerful, but NOT zero-effort automation:**
+- Grok output: **70-80% usable** (not 95%+)
+- Human QA: **2-3 hours/day minimum** for quality control
+- Editing time: **20-40 hours** for cinematic 20-min videos (not 12 hours)
+- Upload velocity: **Start 15 Shorts/day**, scale gradually (175/week = spam risk)
+
+📖 **For production-ready workflows with Dan Martell + Paddy Galloway best practices:**
+👉 **See [YOUTUBE-PRODUCTION-WORKFLOW.md](./YOUTUBE-PRODUCTION-WORKFLOW.md)**
+
+**Bottom line:** Multi-AI collaboration saves massive time, but **never eliminates human curation, QA, and strategic oversight.** Use this guide to understand which AI does what, then follow the production workflow for realistic scaling.
+
+---
+
 ## 🎯 THE STRATEGY: DIVIDE & CONQUER
 
 Each AI has different strengths. Use them like specialized employees.
@@ -95,6 +112,8 @@ Show projected CTR estimate for each.
 ## 🎨 GROK (X.AI) - THE VISUAL CREATOR
 **Best For**: Video clip generation, real-time data
 
+> **⚠️ REALISTIC EXPECTATIONS:** While Grok can generate hundreds of clips/day, **only 70-80% will be usable** after human QA. Never assume 95%+ success rate. See [YOUTUBE-PRODUCTION-WORKFLOW.md](./YOUTUBE-PRODUCTION-WORKFLOW.md) for production-ready scaling strategies.
+
 ### **Grok's Strengths**:
 - ✅ 15-second video clip generation
 - ✅ Real-time Twitter/X data
@@ -103,10 +122,17 @@ Show projected CTR estimate for each.
 - ✅ Meme-aware content
 - ✅ Fast iteration
 
+### **Grok's Limitations (Critical)**:
+- ❌ **Output yield**: 70-80% usable (not 95%+)
+- ❌ **QA required**: 2-3 hours/day minimum for 100 clips
+- ❌ **Prompt time**: 2-3 min/prompt = 3-5 hours for 100 prompts
+- ❌ **Pipeline errors**: Outages, flagged prompts, render failures
+- ❌ **Consistency**: Visual style can drift between clips
+
 ### **Use Grok For**:
-1. **Video Clip Generation**: 20 clips × 15 seconds = 1 full video
-2. **B-Roll Footage**: Generate specific visual scenes
-3. **Thumbnail Concepts**: Quick visual mockups
+1. **Video Clip Generation**: 20 clips × 15 seconds = 1 full video (expect 14-16 usable)
+2. **B-Roll Footage**: Generate specific visual scenes (review each)
+3. **Thumbnail Concepts**: Quick visual mockups (A/B test 3 variants)
 4. **Trending Topic Research**: What's viral right now
 5. **Social Media Assets**: Quick graphics
 
